@@ -9,6 +9,7 @@ class SignIn extends React.Component {
     email: '',
     password: '',
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
   };
