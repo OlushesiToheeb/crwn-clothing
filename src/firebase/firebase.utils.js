@@ -2,18 +2,19 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const config = {
-  apiKey: 'AIzaSyCqRw_diEmh-OpybBsiuSAde-Nt-xS5vZ0',
-  authDomain: 'crwn-clothing-db-88696.firebaseapp.com',
-  databaseURL: 'https://crwn-clothing-db-88696.firebaseio.com',
-  projectId: 'crwn-clothing-db-88696',
-  storageBucket: 'crwn-clothing-db-88696.appspot.com',
-  messagingSenderId: '204435299150',
-  appId: '1:204435299150:web:fa34b136c97825ef671c1f',
-  measurementId: 'G-PFRB1236H5',
+var firebaseConfig = {
+  apiKey: 'AIzaSyBRlPR2JjE0boawVriPytSsXlh9JDZs2so',
+  authDomain: 'crwn-clothing-db-634dd.firebaseapp.com',
+  databaseURL: 'https://crwn-clothing-db-634dd.firebaseio.com',
+  projectId: 'crwn-clothing-db-634dd',
+  storageBucket: 'crwn-clothing-db-634dd.appspot.com',
+  messagingSenderId: '337161300559',
+  appId: '1:337161300559:web:151aaf1469e28cb4e0583a',
+  measurementId: 'G-4PZZQ5NV29',
 };
 
-firebase.initializeApp(config);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
@@ -21,5 +22,31 @@ export const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+export const createUserProfileDocument = async (userAuth, addData) => {
+  if (!userAuth) return;
+
+  const userRef = await firestore.doc(`users/${userAuth.uid}`);
+
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...addData,
+      });
+    } catch (err) {
+      console.log('error creating user', err.message);
+    }
+  }
+
+  return userRef;
+};
 
 export default firebase;
