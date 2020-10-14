@@ -5,7 +5,7 @@ import './App.css';
 import HomePage from './pages/homepage/homepageComponent';
 import ShopPage from './pages/shop/shop';
 import Header from './components/header/header';
-import signInSignUp from './pages/signInSignUp/signInSignUp';
+import SignInSignUp from './pages/signInSignUp/signInSignUp';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentuser } from './redux/user/actions';
 
@@ -45,7 +45,7 @@ class App extends React.Component {
             exact
             path='/signin'
             render={() =>
-              this.props.currentUser ? <Redirect to='/' /> : <signInSignUp />
+              this.props.currentUser ? <Redirect to='/' /> : <SignInSignUp />
             }
           />
         </Switch>
