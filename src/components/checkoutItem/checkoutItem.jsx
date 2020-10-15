@@ -25,7 +25,7 @@ const CheckoutItem = ({ cartItem, dispatch }) => (
         &#10095;
       </div>
     </span>
-    <span className='price'>{cartItem.price}</span>
+    <span className='price'>${cartItem.quantity * cartItem.price}</span>
     <div
       className='remove-button'
       onClick={() => dispatch(clearItemFromCart(cartItem))}
