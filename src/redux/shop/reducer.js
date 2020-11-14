@@ -1,9 +1,7 @@
-import SHOP_DATA from './shopData';
-
 import { UPDATE_COLLECTION } from './actionTypes';
 
 const initialState = {
-    collections: SHOP_DATA,
+    collections: null,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
