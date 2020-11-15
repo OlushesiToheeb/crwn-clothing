@@ -27,9 +27,8 @@ class App extends React.Component {
                         ...snapshot.data(),
                     });
                 });
-            } else {
-                setCurrentuser(userAuth);
             }
+            setCurrentuser(userAuth);
         });
     }
 

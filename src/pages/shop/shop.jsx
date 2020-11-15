@@ -1,22 +1,34 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import CollectionOverview from '../../components/collectionOverview/collectionOverview';
-import CollectionPage from '../collection/collection';
+import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import CollectionsOverviewContainer from '../../components/collectionOverview/collectionOverview-container';
+import CollectionPageContainer from '../collection/collection-container';
 
-const ShopPage = ({ match }) => {
-    let { path } = useRouteMatch();
-    return (
-        <div className='shop-page'>
-            <Switch>
-                <Route exact path={`${path}`} component={CollectionOverview} />
-                <Route
-                    exact
-                    path={`${path}/:collectionId`}
-                    component={CollectionPage}
-                />
-            </Switch>
-        </div>
-    );
-};
+import { fetchCollectionsStartAsync } from '../../redux/shop/actions';
 
-export default ShopPage;
+class ShopPage extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(fetchCollectionsStartAsync());
+    }
+    render() {
+        const { match } = this.props;
+        return (
+            <div className='shop-page'>
+                <Switch>
+                    <Route
+                        exact
+                        path={`${match.path}`}
+                        component={CollectionsOverviewContainer}
+                    />
+                    <Route
+                        exact
+                        path={`${match.path}/:collectionId`}
+                        component={CollectionPageContainer}
+                    />
+                </Switch>
+            </div>
+        );
+    }
+}
+
+export default connect()(ShopPage);
