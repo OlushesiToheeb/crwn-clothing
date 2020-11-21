@@ -1,19 +1,32 @@
-import { SET_CURRENT_USER } from './actions';
+import {
+    GOOGLE_SIGN_IN_SUCCESS,
+    EMAIL_SIGN_SUCCESS,
+    GOOGLE_SIGN_IN_FAILURE,
+    EMAIL_SIGN_FAILURE,
+} from './actions';
 
 const initialState = {
-  currentUser: null,
+    currentUser: null,
+    error: null,
 };
 const userReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case SET_CURRENT_USER:
-      return {
-        ...state,
-        currentUser: payload,
-      };
-
-    default:
-      return state;
-  }
+    switch (type) {
+        case GOOGLE_SIGN_IN_SUCCESS:
+        case EMAIL_SIGN_SUCCESS:
+            return {
+                ...state,
+                currentUser: payload,
+                error: null,
+            };
+        case GOOGLE_SIGN_IN_FAILURE:
+        case EMAIL_SIGN_FAILURE:
+            return {
+                ...state,
+                error: payload,
+            };
+        default:
+            return state;
+    }
 };
 
 export default userReducer;

@@ -13,29 +13,6 @@ import { selectCurrentUser } from './redux/user/selector';
 import { createStructuredSelector } from 'reselect';
 
 class App extends React.Component {
-    unsubscribeFromAuth = null;
-
-    componentDidMount() {
-        const { setCurrentuser } = this.props;
-        this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-            if (userAuth) {
-                const userRef = await createUserProfileDocument(userAuth);
-
-                userRef.onSnapshot((snapshot) => {
-                    setCurrentuser({
-                        id: snapshot.id,
-                        ...snapshot.data(),
-                    });
-                });
-            }
-            setCurrentuser(userAuth);
-        });
-    }
-
-    componentWillUnmount() {
-        this.unsubscribeFromAuth();
-    }
-
     render() {
         return (
             <div>
