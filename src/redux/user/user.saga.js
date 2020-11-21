@@ -11,9 +11,15 @@ import {
     GOOGLE_SIGN_IN_START,
     EMAIL_SIGN_START,
     CHECK_USER_SESSION,
+    SIGN_OUT_START,
 } from './actions';
 
-import { signInSuccess, signInFailure } from './actions';
+import {
+    signInSuccess,
+    signInFailure,
+    signOutSuccess,
+    signOutFailure,
+} from './actions';
 
 export function* getSnapshotFromUserAuth(userAuth) {
     try {
@@ -67,10 +73,24 @@ export function* onCheckUserSession() {
     yield takeLatest(CHECK_USER_SESSION, isUserAuthenticated);
 }
 
+export function* signOut() {
+    try {
+        yield auth.signOut();
+        yield put(signOutSuccess());
+    } catch (error) {
+        yield put(signOutFailure(error));
+    }
+}
+
+export function* onSignOutStart() {
+    yield takeLatest(SIGN_OUT_START, signOut);
+}
+
 export function* userSagas() {
     yield all([
         call(onGoogleSignInStart),
         call(onEmailSignInStart),
         call(onCheckUserSession),
+        call(onSignOutStart),
     ]);
 }
