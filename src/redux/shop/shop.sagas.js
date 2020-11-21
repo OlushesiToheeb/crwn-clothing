@@ -1,5 +1,5 @@
 // takeEvery list listening for actions of a specific type that is pass to it
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import { FECTH_COLLECTIONS_START } from './actionTypes';
 
@@ -31,4 +31,8 @@ export function* fetchCollectionsStart() {
     //The last one is probably going to get the most up to date data from our database so it's safe to sayusing take latest is the best option.
     // takeEvery creates a non blocking to call so that the app is non blocking
     yield takeLatest(FECTH_COLLECTIONS_START, fetchCollectionsAsync);
+}
+
+export function* shopSagas() {
+    yield all([call(fetchCollectionsStart)]);
 }
