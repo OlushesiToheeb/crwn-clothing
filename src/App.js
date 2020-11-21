@@ -8,9 +8,14 @@ import Checkout from './pages/checkout/checkout';
 import Header from './components/header/header';
 import SignInSignUp from './pages/signInSignUp/signInSignUp';
 import { selectCurrentUser } from './redux/user/selector';
+import { checkUserSession } from './redux/user/actions';
 import { createStructuredSelector } from 'reselect';
 
 class App extends React.Component {
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch(checkUserSession());
+    }
     render() {
         return (
             <div>

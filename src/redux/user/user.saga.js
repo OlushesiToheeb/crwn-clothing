@@ -4,9 +4,14 @@ import {
     auth,
     googleProvider,
     createUserProfileDocument,
+    getCurrentUser,
 } from '../../firebase/firebase.utils';
 
-import { GOOGLE_SIGN_IN_START, EMAIL_SIGN_START } from './actions';
+import {
+    GOOGLE_SIGN_IN_START,
+    EMAIL_SIGN_START,
+    CHECK_USER_SESSION,
+} from './actions';
 
 import { signInSuccess, signInFailure } from './actions';
 
@@ -48,6 +53,24 @@ export function* onEmailSignInStart() {
     yield takeLatest(EMAIL_SIGN_START, signInWithEmailAndPassword);
 }
 
+export function* isUserAuthenticated() {
+    try {
+        const userAuth = yield getCurrentUser();
+        if (!userAuth) return;
+        yield getSnapshotFromUserAuth(userAuth);
+    } catch (error) {
+        yield put(signInFailure(error));
+    }
+}
+
+export function* onCheckUserSession() {
+    yield takeLatest(CHECK_USER_SESSION, isUserAuthenticated);
+}
+
 export function* userSagas() {
-    yield all([call(onGoogleSignInStart), call(onEmailSignInStart)]);
+    yield all([
+        call(onGoogleSignInStart),
+        call(onEmailSignInStart),
+        call(onCheckUserSession),
+    ]);
 }
