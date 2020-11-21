@@ -1,5 +1,5 @@
 // takeEvery list listening for actions of a specific type that is pass to it
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 
 import { FECTH_COLLECTIONS_START } from './actionTypes';
 
@@ -27,7 +27,8 @@ export function* fetchCollectionsAsync() {
 }
 
 export function* fetchCollectionsStart() {
-    // the first arg for takeLatest is the actiontype to be updated and the second is the generator function you want to run
-    // takeEvrer creates a non blocking to call so that the app is non blocking
-    yield takeEvery(FECTH_COLLECTIONS_START, fetchCollectionsAsync);
+    // if take latest ever fires multiple times.
+    //The last one is probably going to get the most up to date data from our database so it's safe to sayusing take latest is the best option.
+    // takeEvery creates a non blocking to call so that the app is non blocking
+    yield takeLatest(FECTH_COLLECTIONS_START, fetchCollectionsAsync);
 }

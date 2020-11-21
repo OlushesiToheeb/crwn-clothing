@@ -6,7 +6,7 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
 // imports sagas
-import { fetchCollectionsStart } from '../redux/shop/shop.sagas';
+import rootSaga from './root.saga';
 
 import rootReducer from './index';
 
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 // this is used to run individual sagas
-sagaMiddleware.run(fetchCollectionsStart);
+sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);
 
