@@ -6,6 +6,9 @@ export const CHECK_USER_SESSION = 'CHECK_USER_SESSION';
 export const SIGN_OUT_START = 'SIGN_OUT_START';
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS';
 export const SIGN_OUT_FAILURE = 'SIGN_OUT_FAILURE';
+export const SIGN_UP_START = 'SIGN_UP_START';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
 export const googleSignInStart = () => ({
     type: GOOGLE_SIGN_IN_START,
@@ -40,5 +43,20 @@ export const signOutSuccess = () => ({
 
 export const signOutFailure = (payload) => ({
     type: SIGN_OUT_FAILURE,
+    payload,
+});
+
+export const signUpStart = (payload) => ({
+    type: SIGN_UP_START,
+    payload,
+});
+
+export const signUpSuccess = ({ user, additionalData }) => ({
+    type: SIGN_UP_SUCCESS,
+    payload: { user, additionalData },
+});
+
+export const signUpFailure = (payload) => ({
+    type: SIGN_UP_FAILURE,
     payload,
 });
